@@ -1,30 +1,24 @@
 import express from "express";
 
 const app = express();
-app.use(express.json());
+app.use(express.json()); // Middleware to get req body in json format
 
-app.post("/hello", (req, res) => {
-  console.log(req);
-  res.send(`Hello ${req.body.name} ${req.body.age} !`);
-});
-
-app.get("/hello/:name", (req, res) => {
-  const { name } = req.params;
-  res.send(`Hello ${name}!!`);
-})
 
 let articlesInfo = [
   {
     name: "learn-react",
     upvote: 0,
+    comments: [],
   },
   {
     name: "learn-node",
     upvote: 0,
+    comments: [],
   },
   {
     name: "mongodb",
     upvote: 0,
+    comments: [],
   },
 ]
 
@@ -34,6 +28,19 @@ app.put('/api/articles/:name/upvote', (req, res) => {
   if (article) {
     article.upvote += 1;
     res.send(`The article ${name} has now ${article.upvote} upvotes!`)
+  } else {
+    res.send('That article does not exist!');
+  }
+})
+
+app.post('/api/articles/:name/comments', (req, res) => {
+  const { name } = req.params;
+  const { postedBy, text } = req.body;
+  const article = articlesInfo.find(article => article.name === name);
+  if (article) {
+    article.comments.push({ postedBy, text });
+    res.send(article.comments);
+
   } else {
     res.send('That article does not exist!');
   }
