@@ -1,5 +1,15 @@
-import express from "express";
+import express, { json } from "express";
 import { db, connectToMongodb } from './mongodbConn.js';
+import fs from 'fs';
+import admin from 'firebase-admin';
+
+const credentials = JSON.parse(
+  fs.readFileSync("../credentials.json")
+)
+
+admin.initializeApp({
+  credential: admin.credential.cert(credentials)
+})
 
 const app = express();
 app.use(express.json()); // Middleware to get req body in json format
