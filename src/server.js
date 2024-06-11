@@ -26,16 +26,9 @@ app.use(async (req, res, next) => {
     }
   }
   req.user= req.user || {};
-
   next();
 });
 
-// Connects to database MongoDB
-connectToMongodb(() => {
-  app.listen(8000, () => {
-    console.log("Server is listening on port 8000");
-  });
-})
 
 // Gets just one article
 app.get('/api/articles/:name', async (req, res) => {
@@ -54,7 +47,7 @@ app.get('/api/articles/:name', async (req, res) => {
 })
 
 // Checking if user are logged in and allows to upvote and comments with next()
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   if (req.user) {
     next();
   } else {
@@ -104,4 +97,11 @@ app.post('/api/articles/:name/comments', async (req, res) => {
     res.send('That article does not exist!');
   }
 
+})
+
+// Connects to database MongoDB
+connectToMongodb(() => {
+  app.listen(8000, () => {
+    console.log("Server is listening on port 8000");
+  });
 })
