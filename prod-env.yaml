@@ -1,3 +1,5 @@
 env_variables:
   MONGO_USERNAME: 
   MONGO_PASSWORD: 
+
+  # TODO Add username and password for mongodb database before depolying on google cloud
