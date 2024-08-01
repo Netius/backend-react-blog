@@ -2,9 +2,11 @@ import express, { json } from "express";
 import { db, connectToMongodb } from './mongodbConn.js';
 import fs from 'fs';
 import admin from 'firebase-admin';
+import "dotenv/config";
 
 import { fileURLToPath } from "url"; // Recreating __ name available when type is not equal to module - JS
 import path from "path";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -114,6 +116,6 @@ const PORT = process.env.PORT || 8000;
 // Connects to database MongoDB
 connectToMongodb(() => {
   app.listen(PORT, () => {
-    console.log("Server is listening on port" + PORT);
+    console.log("Server is listening on port " + PORT);
   });
 })
